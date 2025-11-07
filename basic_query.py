@@ -27,3 +27,32 @@ async def basic_query(prompt: str):
       for block in message.content:
         if isinstance(block, TextBlock):
           print(block.text)
+
+
+async def start_chat_loop():
+  print("Welcome to 簡易互動對話")
+  print("type 'exit' to quit.")
+
+  # system_prompt = "你是一個樂於助人的助手。"
+  # system_prompt = "You are a helpful assistant."
+
+  while True:
+    try:
+      user_input = input(">>>").strip()
+
+      if user_input.lower() in ['exit', 'quit']:
+        print("Bye!")
+        break
+      elif user_input:
+        # 對話送至 AI 模型
+        await basic_query(user_input)
+
+    except KeyboardInterrupt:
+      print("Bye!")
+      break
+    except EOFError:
+      print("Bye!")
+      break
+    except Exception as e:
+      print(f"出現例外！ {e}")
+      break
