@@ -9,3 +9,4 @@
 - 用 uv 工具建立虛擬
 
 # 參考文件
+[Claude Agent SDK - Quick Getting Started Guide](https://www.youtube.com/watch?v=Lh4IV9MLnuI)
