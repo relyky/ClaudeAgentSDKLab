@@ -1,0 +1,23 @@
+# Claude Agent SDK Lab - Python Dependencies
+# 此檔案列出專案直接使用的套件及其版本
+# 子依賴會自動安裝，無需手動列出
+
+# Claude AI Agent 核心 SDK
+# 用於與 Claude API 進行互動，提供 Agent 功能
+claude-agent-sdk==0.1.6
+
+# 非同步控制台輸入/輸出
+# 用於互動式終端機介面，支援非同步輸入
+aioconsole==0.8.2
+
+# 異步 I/O 執行環境
+# 統一的異步程式執行框架，支援 asyncio 和 trio
+anyio==4.11.0
+
+# 環境變數管理
+# 從 .env 檔案載入環境變數（如 API 金鑰）
+python-dotenv==1.2.1
+
+# 數值表達式求值器
+# 用於 agent_with_tools.py 中的計算器工具
+numexpr==2.10.2
