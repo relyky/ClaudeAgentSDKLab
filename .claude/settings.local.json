@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv pip list:*)",
+      "Bash(uv pip install:*)",
+      "Bash(uv pip:*)",
+      "Bash(python:*)",
+      "Bash(timeout 5 python:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
