@@ -10,7 +10,15 @@ async def start_chat_continuous():
   options = ClaudeAgentOptions(
     system_prompt="你是一個樂於助人的助手。你會說中文並展示你的工作步驟。",  # 定義 AI 的角色與行為準則
     max_turns=None,  # 不限制對話輪次（適用於 agent 模式，單次查詢時無影響）
-    model="claude-sonnet-4-5-20250929"  # 指定使用的 Claude 模型版本
+    model="claude-sonnet-4-5-20250929",  # 指定使用的 Claude 模型版本
+    mcp_servers={
+      "fetch":{
+        "command":"uvx",
+        "args":["mcp-server-fetch"]
+      }
+    },
+    # 允許使用 fetch 工具
+    allowed_tools=["mcp__fetch__fetch"]
   )
 
   async with ClaudeSDKClient(options=options) as client:
