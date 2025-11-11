@@ -1,6 +1,7 @@
 from claude_agent_sdk import AssistantMessage, ClaudeAgentOptions, ClaudeSDKClient, TextBlock, ToolResultBlock, ToolUseBlock, UserMessage, tool, create_sdk_mcp_server
 from typing import Any
 import numexpr as ne
+import json
 
 async def start_chat_tools():
   print("Welcome to AI mode 取用工具")
@@ -26,16 +27,69 @@ async def start_chat_tools():
         "content": [{"type":"text", "text":f" Error: {e}"}]
       }
     
+  @tool(name="leave_query",
+        description="請假申請單維護作業。請假單查詢。",
+        input_schema={"applicant": str})
+  async def leave_query(args: dict[str,Any]) -> dict[str,Any]:
+    try:
+      # read data
+      applicant = args.get('applicant')
+
+      # process (service) --- 通常這裡叫用服務
+      # 查詢資料庫...未實作。或向後呼叫 Web API。
+      data = [{
+        "application_id": "LV-2025-1113-001",
+        "applicant_name": applicant,
+        "department": "行銷部",
+        "position": "市場專員",
+        "application_date": "2025-11-11",
+        "leave_type": "年假",
+        "start_date": "2025-11-13",
+        "end_date": "2025-11-13",
+        "number_of_days": 1,
+        "reason": "個人事務",
+        "emergency_contact": "李美麗",
+        "contact_phone": "0912-345-678",
+        "supervisor": "陳經理",
+        "status": "待審批",
+        "remarks": "無"
+      }] if applicant != "John" else []
+
+      # process (service) --- 通常這裡叫用服務
+      result = json.dumps(data)
+
+      # return 
+      return {
+        "content": [{"type":"text", "text":f"{result}"}]
+      }
+    except Exception as e:
+      return {
+        "content": [{"type":"text", "text":f" Error: {e}"}]
+      }  
 
   tools_mcp = create_sdk_mcp_server(name="General tools", version="2.0.0", tools=[calculator])
 
-  system_prompt = "你是一個樂於助人的助手。" # "you are a helpful assistant"
-  allowed_tools = ["Reac", "Write", "Bash", "mcp__extra_tools__calculator"]
+  # 假單管理 MCP Server
+  leave_application_form_mcp = create_sdk_mcp_server(
+    name="Leave Application Form Management", 
+    version="1.0.0", 
+    tools=[leave_query])
 
-  options = ClaudeAgentOptions(system_prompt=system_prompt, 
-                               mcp_servers={"extra_tools": tools_mcp}, 
-                               allowed_tools=allowed_tools, 
-                               permission_mode="acceptEdits")
+  system_prompt = "你是一個樂於助人的助手。" # "you are a helpful assistant"
+
+  options = ClaudeAgentOptions(
+    system_prompt=system_prompt, 
+    mcp_servers={
+      "leave_application_form": leave_application_form_mcp,
+      "extra_tools": tools_mcp
+    }, 
+    allowed_tools=[
+      "Read", "Write", "Bash", 
+      "mcp__leave_application_form__leave_query",
+      "mcp__extra_tools__calculator"
+    ], 
+    permission_mode="acceptEdits"
+  )
   
   async with ClaudeSDKClient(options=options) as client:
     while True:
