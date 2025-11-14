@@ -6,6 +6,9 @@ Claude Agent SDK 的實驗專案，用於學習和測試 Claude Agent SDK 的各
 
 本專案展示如何使用 Claude Agent SDK 建立各種 AI 應用，從簡單的單次查詢到複雜的多輪對話和工具整合。專案包含多個範例程式，逐步展示 SDK 的不同功能特性。
 
+## 主要參考文件
+- [Claude Agent SDK - Quick Getting Started Guide](https://www.youtube.com/watch?v=Lh4IV9MLnuI)
+
 ## 功能特性
 
 - ✅ **基本查詢**：單次問答，展示最基本的 SDK 使用方式
